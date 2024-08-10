@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "strict": true,
+        "target": "ESNext",
+        "lib": [
+            "ESNext"
+        ],
+        "moduleResolution": "Bundler",
+        "forceConsistentCasingInFileNames": true,
+        "useUnknownInCatchVariables": true,
+        "noImplicitOverride": true,
+        "verbatimModuleSyntax": true,
+        "allowJs": false,
+        "noFallthroughCasesInSwitch": false,
+        "esModuleInterop": false,
+        "paths": {
+            "src/*": [
+                "src/*"
+            ]
+        },
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "baseUrl": "."
+    },
+    "include": [
+        "src",
+        "src/index.ts"
+    ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "valbot-2",
+  "version": "1.0.0",
+  "main": "src/bot.ts",
+  "repository": "git@github.com:jhburns/valbot-2.git",
+  "author": "Jonathan Burns <jburns@chapman.edu>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "watch": "tsx watch src/jumpStart.ts",
+    "build": "yarn tsc && tsup src/bot.ts --minify --sourcemap --treeshake",
+    "build:start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "source-map-support": "^0.5.21",
+    "tsup": "^8.2.4",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
+  }
+}
