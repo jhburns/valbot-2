@@ -1,16 +1,21 @@
 import 'dotenv/config';
 import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
+import R from 'rambda';
+
+import type { CommandInfo } from './command/CommandTypes';
+import ping from 'src/command/ping';
 
 const commands = [
-    {
-        name: 'ping',
-        description: 'Replies with Pong!',
-    },
+    ping
 ];
+
+const commandPairs =
+    R.map((c: CommandInfo) => [c.name, R.dissoc('name', c)] as [string, Omit<CommandInfo, 'name'>], [ping]);
+
+const commandsByName = R.fromPairs(commandPairs);
 
 const init = async () => {
     const token = process.env.TOKEN!;
-    console.log(token)
     const applicationId = process.env.APPLICATION_ID!;
 
     const rest = new REST({ version: '10' }).setToken(token);
@@ -31,12 +36,15 @@ const init = async () => {
         console.log(`Logged in as ${client.user!.tag}!`);
     });
 
-    client.on('interactionCreate', async interaction => {
+    client.on('interactionCreate', async (interaction) => {
         if (!interaction.isChatInputCommand()) return;
 
-        if (interaction.commandName === 'ping') {
-            await interaction.reply('Pong!');
+        const commandName = interaction.commandName;
+        if (R.has(commandName)) {
+            commandsByName[commandName].action(interaction)
         }
+
+        console.error(`Command not found '${commandName}'`)
     });
 
     client.login(token);
