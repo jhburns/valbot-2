@@ -1,7 +1,7 @@
-import type { ChatInputCommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction, Client } from 'discord.js';
 
 export interface Action {
-    (interaction: ChatInputCommandInteraction): Promise<void>;
+    (interaction: ChatInputCommandInteraction, client: Client): Promise<void>;
 }
 
 export interface CommandInfo {

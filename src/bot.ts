@@ -41,7 +41,7 @@ const init = async () => {
 
         const commandName = interaction.commandName;
         if (R.has(commandName)) {
-            commandsByName[commandName].action(interaction)
+            await commandsByName[commandName].action(interaction, client)
         }
 
         console.error(`Command not found '${commandName}'`)
