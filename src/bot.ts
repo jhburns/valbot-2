@@ -4,13 +4,15 @@ import R from 'rambda';
 
 import type { CommandInfo } from './command/CommandTypes';
 import ping from 'src/command/ping';
+import uptime from 'src/command/uptime';
 
 const commands = [
-    ping
+    ping,
+    uptime
 ];
 
 const commandPairs =
-    R.map((c: CommandInfo) => [c.name, R.dissoc('name', c)] as [string, Omit<CommandInfo, 'name'>], [ping]);
+    R.map((c: CommandInfo) => [c.name, R.dissoc('name', c)] as [string, Omit<CommandInfo, 'name'>], commands);
 
 const commandsByName = R.fromPairs(commandPairs);
 
@@ -41,7 +43,8 @@ const init = async () => {
 
         const commandName = interaction.commandName;
         if (R.has(commandName)) {
-            await commandsByName[commandName].action(interaction, client)
+            await commandsByName[commandName].action(interaction, client);
+            return;
         }
 
         console.error(`Command not found '${commandName}'`)

@@ -1,7 +1,7 @@
 import type { CommandInfo, Action } from "src/command/CommandTypes";
 
 const name = 'ping';
-const description = 'test val-bot\'s performance';
+const description = 'test valbot\'s performance';
 const action: Action = async (interaction, client) => {
     const start = Date.now();
 
