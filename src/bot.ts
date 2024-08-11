@@ -42,7 +42,7 @@ const init = async () => {
         if (!interaction.isChatInputCommand()) return;
 
         const commandName = interaction.commandName;
-        if (R.has(commandName)) {
+        if (R.has(commandName, commandsByName)) {
             await commandsByName[commandName].action(interaction, client);
             return;
         }
