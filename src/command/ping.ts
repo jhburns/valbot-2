@@ -1,7 +1,5 @@
 import type { CommandInfo, Action } from "src/command/CommandTypes";
 
-const name = 'ping';
-const description = 'test valbot\'s performance';
 const action: Action = async (interaction, client) => {
     const start = Date.now();
 
@@ -16,9 +14,10 @@ const action: Action = async (interaction, client) => {
 }
 
 const ping: CommandInfo = {
-    name,
-    description,
-    action
+    name: 'ping',
+    description: 'description',
+    action,
+    tag: 'Utility'
 };
 
 export default ping;

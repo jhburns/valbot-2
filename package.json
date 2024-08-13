@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "watch:launch": "tsx watch src/jumpStart.ts",
+    "watch": "tsx watch src/jumpStart.ts",
     "watch:types": "tsc --watch",
     "build": "yarn tsc && tsup src/bot.ts --minify --sourcemap --treeshake",
     "build:start": "node index.js"

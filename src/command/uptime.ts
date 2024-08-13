@@ -2,8 +2,6 @@ import type { CommandInfo, Action } from "src/command/CommandTypes";
 import { intervalToDuration, formatDuration } from 'date-fns/fp';
 import R from 'rambda';
 
-const name = 'uptime';
-const description = 'gets how long the valbot has been gaming';
 const action: Action = async (interaction) => {
     const formatted = R.pipe(
         (s) => s * 1000,
@@ -18,9 +16,10 @@ const action: Action = async (interaction) => {
 }
 
 const uptime: CommandInfo = {
-    name,
-    description,
-    action
+    name: 'uptime',
+    description: 'gets how long the valbot has been gaming',
+    action,
+    tag: 'Utility'
 };
 
 export default uptime;

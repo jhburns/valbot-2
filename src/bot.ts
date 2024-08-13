@@ -5,10 +5,12 @@ import R from 'rambda';
 import type { CommandInfo } from './command/CommandTypes';
 import ping from 'src/command/ping';
 import uptime from 'src/command/uptime';
+import help from 'src/command/help';
 
 const commands = [
     ping,
-    uptime
+    uptime,
+    help
 ];
 
 const commandPairs =
@@ -43,7 +45,7 @@ const init = async () => {
 
         const commandName = interaction.commandName;
         if (R.has(commandName, commandsByName)) {
-            await commandsByName[commandName].action(interaction, client);
+            await commandsByName[commandName].action(interaction, client, commands);
             return;
         }
 
