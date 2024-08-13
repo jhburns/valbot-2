@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
 import R from 'rambda';
+import pino from 'pino';
 
 import type { CommandInfo } from './command/CommandTypes';
 import ping from 'src/command/ping';
@@ -22,22 +23,28 @@ const init = async () => {
     const token = process.env.TOKEN!;
     const applicationId = process.env.APPLICATION_ID!;
 
+    const logger = pino({
+        transport: {
+            target: 'pino-pretty'
+        },
+    })
+
     const rest = new REST({ version: '10' }).setToken(token);
 
     try {
-        console.log('Started refreshing application (/) commands.');
+        logger.info('🔄 Started refreshing application (/) commands.');
 
         await rest.put(Routes.applicationCommands(applicationId), { body: commands });
 
-        console.log('Successfully reloaded application (/) commands.');
+        logger.info('✅ Successfully reloaded application (/) commands.');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
     }
 
     const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
     client.on('ready', () => {
-        console.log(`Logged in as ${client.user!.tag}!`);
+        logger.info(`😎 Logged in as *${client.user!.tag}*!`);
     });
 
     client.on('interactionCreate', async (interaction) => {
@@ -49,7 +56,7 @@ const init = async () => {
             return;
         }
 
-        console.error(`Command not found '${commandName}'`)
+        logger.info(`Command not found '${commandName}'`)
     });
 
     client.login(token);

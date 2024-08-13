@@ -16,6 +16,8 @@
     "date-fns": "^3.6.0",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
+    "pino": "^9.3.2",
+    "pino-pretty": "^11.2.2",
     "rambda": "^9.2.1",
     "source-map-support": "^0.5.21",
     "tsup": "^8.2.4",
