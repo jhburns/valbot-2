@@ -1,15 +1,19 @@
-import { EmbedBuilder } from "discord.js";
-import type { CommandInfo, Action } from "src/command/CommandTypes";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import type { CommandInfo, Execute } from "src/command/CommandTypes";
 import R from 'rambda';
 
-const action: Action = async (interaction, client, commands) => {
+const data = new SlashCommandBuilder()
+    .setName('help')
+    .setDescription('lists all commands');
+
+const execute: Execute = async (interaction, client, commands) => {
     const fields = R.pipe(
         R.groupBy((c: CommandInfo) => c.tag),
         Object.entries,
         R.map(([name, items]) => ({
             name,
             value: R.pipe(
-                R.map((c: CommandInfo) => c.name),
+                R.map((c: CommandInfo) => c.data.name),
                 R.sort((a, b) => a.localeCompare(b)),
                 R.map((n: string) => `\`/${n}\``),
                 R.join(' ')
@@ -30,9 +34,8 @@ const action: Action = async (interaction, client, commands) => {
 };
 
 const help: CommandInfo = {
-    name: 'help',
-    description: 'lists all commands',
-    action,
+    data,
+    execute,
     tag: 'Utility'
 };
 

@@ -3,19 +3,19 @@ import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
 import R from 'rambda';
 import pino from 'pino';
 
-import type { CommandInfo } from './command/CommandTypes';
+import type { CommandInfo, Execute } from './command/CommandTypes';
 import ping from 'src/command/ping';
 import uptime from 'src/command/uptime';
 import help from 'src/command/help';
 
-const commands = [
+const commands: CommandInfo[] = [
     ping,
     uptime,
     help,
 ];
 
 const commandPairs =
-    R.map((c: CommandInfo) => [c.name, R.dissoc('name', c)] as [string, Omit<CommandInfo, 'name'>], commands);
+    R.map((c: CommandInfo) => [c.data.name, c.execute] as [string, Execute], commands);
 
 const commandsByName = R.fromPairs(commandPairs);
 
@@ -34,7 +34,9 @@ const init = async () => {
     try {
         logger.info('🔄 Started refreshing application (/) commands.');
 
-        await rest.put(Routes.applicationCommands(applicationId), { body: commands });
+        await rest.put(
+            Routes.applicationCommands(applicationId),
+            { body: R.map(R.prop('data'), commands) });
 
         logger.info('✅ Successfully reloaded application (/) commands.');
     } catch (error) {
@@ -51,26 +53,25 @@ const init = async () => {
         if (!interaction.isChatInputCommand()) return;
 
         const commandName = interaction.commandName;
-        if (R.has(commandName, commandsByName)) {
-            try {
-                await commandsByName[commandName].action(interaction, client, commands);
-            } catch (error) {
-                logger.error(error);
-                if (interaction.replied || interaction.deferred) {
-                    await interaction.followUp({
-                        content: 'There was an error while executing this command! >_>', ephemeral: true
-                    });
-                } else {
-                    await interaction.reply({
-                        content: 'There was an error while executing this command! >_>', ephemeral: true
-                    });
-                }
-            }
-
+        if (!R.has(commandName, commandsByName)) {
+            logger.info(`Command not found '${commandName}'`)
             return;
         }
 
-        logger.info(`Command not found '${commandName}'`)
+        try {
+            await commandsByName[commandName](interaction, client, commands);
+        } catch (error) {
+            logger.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({
+                    content: 'There was an error while executing this command! >_>', ephemeral: true
+                });
+            } else {
+                await interaction.reply({
+                    content: 'There was an error while executing this command! >_>', ephemeral: true
+                });
+            }
+        }
     });
 
     client.login(token);

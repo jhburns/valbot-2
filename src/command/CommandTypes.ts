@@ -1,15 +1,14 @@
-import type { ChatInputCommandInteraction, Client } from 'discord.js';
+import type { ChatInputCommandInteraction, Client, SlashCommandBuilder } from 'discord.js';
 
-export interface Action {
+export interface Execute {
     (interaction: ChatInputCommandInteraction, client: Client, commands: CommandInfo[]): Promise<void>;
 }
 
 export type GroupTag = 'Utility' | 'Entertainment';
 
 export interface CommandInfo {
-    name: string,
-    description: string,
+    data: SlashCommandBuilder,
+    execute: Execute,
     tag: GroupTag,
-    action: Action
 }
 

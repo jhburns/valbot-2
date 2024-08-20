@@ -1,6 +1,11 @@
-import type { CommandInfo, Action } from "src/command/CommandTypes";
+import type { CommandInfo, Execute } from "src/command/CommandTypes";
+import { SlashCommandBuilder } from "discord.js";
 
-const action: Action = async (interaction, client) => {
+const data = new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('checks bot health');
+
+const execute: Execute = async (interaction, client) => {
     const start = Date.now();
 
     const message = await interaction.reply({
@@ -17,9 +22,8 @@ const action: Action = async (interaction, client) => {
 }
 
 const ping: CommandInfo = {
-    name: 'ping',
-    description: 'checks bot health',
-    action,
+    data,
+    execute,
     tag: 'Utility'
 };
 
