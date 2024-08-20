@@ -4,7 +4,7 @@ export interface Action {
     (interaction: ChatInputCommandInteraction, client: Client, commands: CommandInfo[]): Promise<void>;
 }
 
-export type GroupTag = 'Utility';
+export type GroupTag = 'Utility' | 'Entertainment';
 
 export interface CommandInfo {
     name: string,

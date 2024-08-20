@@ -6,6 +6,5 @@ Discord bot with some fun features upgraded to TypeScript
 
 - status message and description
 - pfp
-- logger
 - playing a game
 - more commands

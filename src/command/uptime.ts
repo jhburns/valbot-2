@@ -10,9 +10,11 @@ const action: Action = async (interaction) => {
         formatDuration()
     )(process.uptime());
 
-    await interaction.reply(
-        'I have been busy playing Fist Full of Frags for: ' +
-        `**${formatted}** ᶠʳᵉᵉᵉ ᵐᵉᵉ`);
+    await interaction.reply({
+        content: 'I have been busy playing Fist Full of Frags for: ' +
+            `**${formatted}** ᶠʳᵉᵉᵉ ᵐᵉᵉ`,
+        ephemeral: true
+    });
 }
 
 const uptime: CommandInfo = {

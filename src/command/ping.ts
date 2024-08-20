@@ -3,7 +3,10 @@ import type { CommandInfo, Action } from "src/command/CommandTypes";
 const action: Action = async (interaction, client) => {
     const start = Date.now();
 
-    const message = await interaction.reply('Pong!');
+    const message = await interaction.reply({
+        content: 'Pong!', ephemeral: true
+    });
+
     const end = Date.now();
 
     await message.edit(
@@ -15,7 +18,7 @@ const action: Action = async (interaction, client) => {
 
 const ping: CommandInfo = {
     name: 'ping',
-    description: 'description',
+    description: 'checks bot health',
     action,
     tag: 'Utility'
 };

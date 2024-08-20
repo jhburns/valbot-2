@@ -11,7 +11,7 @@ import help from 'src/command/help';
 const commands = [
     ping,
     uptime,
-    help
+    help,
 ];
 
 const commandPairs =
@@ -52,7 +52,21 @@ const init = async () => {
 
         const commandName = interaction.commandName;
         if (R.has(commandName, commandsByName)) {
-            await commandsByName[commandName].action(interaction, client, commands);
+            try {
+                await commandsByName[commandName].action(interaction, client, commands);
+            } catch (error) {
+                logger.error(error);
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp({
+                        content: 'There was an error while executing this command! >_>', ephemeral: true
+                    });
+                } else {
+                    await interaction.reply({
+                        content: 'There was an error while executing this command! >_>', ephemeral: true
+                    });
+                }
+            }
+
             return;
         }
 
