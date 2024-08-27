@@ -7,11 +7,13 @@ import type { CommandInfo, Execute } from './command/CommandTypes';
 import ping from 'src/command/ping';
 import uptime from 'src/command/uptime';
 import help from 'src/command/help';
+import emojify from 'src/command/emojify';
 
 const commands: CommandInfo[] = [
     ping,
     uptime,
     help,
+    emojify
 ];
 
 const commandPairs =
